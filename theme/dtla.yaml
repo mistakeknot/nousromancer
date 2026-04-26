@@ -3,98 +3,105 @@
 # dtla-mission-control dashboard plugin for the full hackathon build.
 name: dtla
 label: "DTLA"
-description: "Downtown Los Angeles night-mode dashboard: black glass, millennial pink, electric blue, and violet glow."
+description: "A black technical ledger for Hermes Dashboard: ACRONYM-like labeling discipline, Veilance restraint, and operational color only where state matters."
 
 palette:
   background:
-    hex: "#050508"
+    hex: "#030303"
     alpha: 1.0
   midground:
-    hex: "#F6EAF2"
+    hex: "#E8E8E2"
     alpha: 1.0
   foreground:
-    hex: "#55C7FF"
-    alpha: 0.72
-  warmGlow: "rgba(243, 166, 200, 0.22)"
-  noiseOpacity: 0.82
+    hex: "#8EA0A8"
+    alpha: 0.78
+  warmGlow: "rgba(216, 166, 186, 0.08)"
+  noiseOpacity: 0.08
 
 typography:
-  fontSans: '"Space Grotesk", "Inter", system-ui, sans-serif'
-  fontMono: '"JetBrains Mono", "SFMono-Regular", ui-monospace, monospace'
-  fontDisplay: '"Space Grotesk", "Inter", system-ui, sans-serif'
-  fontUrl: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+  fontSans: '"Geist", "Inter", "Helvetica Neue", Arial, system-ui, sans-serif'
+  fontMono: '"Ioskeley Mono", "Geist Mono", "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace'
+  fontDisplay: '"Ioskeley Mono", "Geist Mono", "JetBrains Mono", ui-monospace, monospace'
+  fontUrl: "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap"
   baseSize: "14px"
-  lineHeight: "1.55"
-  letterSpacing: "0.012em"
+  lineHeight: "1.52"
+  letterSpacing: "0.004em"
 
 layout:
-  radius: "0.85rem"
-  density: "comfortable"
+  radius: "0.45rem"
+  density: "compact"
 
 # Standard layout avoids left-rail collisions with other cockpit/sidebar plugins.
 layoutVariant: standard
 
 assets:
-  bg: "radial-gradient(circle at 18% 12%, rgba(243, 166, 200, 0.18), transparent 28%), radial-gradient(circle at 82% 8%, rgba(85, 199, 255, 0.14), transparent 26%), radial-gradient(circle at 50% 92%, rgba(124, 92, 255, 0.18), transparent 34%), linear-gradient(135deg, #050508 0%, #0B0B14 48%, #120A1D 100%)"
-  hero: "radial-gradient(circle at 50% 18%, rgba(85, 199, 255, 0.55), transparent 18%), linear-gradient(155deg, rgba(243, 166, 200, 0.12), rgba(124, 92, 255, 0.18) 48%, rgba(5, 5, 8, 0.84)), repeating-linear-gradient(90deg, rgba(85, 199, 255, 0.16) 0 1px, transparent 1px 22px)"
-  crest: "radial-gradient(circle, rgba(85, 199, 255, 0.45), rgba(124, 92, 255, 0.20) 42%, transparent 70%)"
+  bg: "linear-gradient(180deg, #030303 0%, #060606 58%, #020202 100%)"
+  hero: "linear-gradient(135deg, rgba(232, 232, 226, 0.06), rgba(142, 160, 168, 0.04)), linear-gradient(180deg, #050505, #020202)"
+  crest: "linear-gradient(135deg, rgba(216, 166, 186, 0.12), rgba(142, 160, 168, 0.06))"
   custom:
-    skyline: "linear-gradient(180deg, transparent 0 42%, rgba(85, 199, 255, 0.12) 43% 45%, transparent 46%), repeating-linear-gradient(90deg, transparent 0 18px, rgba(243, 166, 200, 0.10) 19px 20px, transparent 21px 42px)"
+    ledgerRule: "linear-gradient(90deg, rgba(232, 232, 226, 0.18), transparent 72%)"
 
 componentStyles:
   card:
-    background: "linear-gradient(180deg, rgba(16, 16, 26, 0.90) 0%, rgba(5, 5, 8, 0.96) 100%)"
-    borderColor: "rgba(243, 166, 200, 0.24)"
-    boxShadow: "inset 0 0 0 1px rgba(243, 166, 200, 0.18), 0 0 34px rgba(124, 92, 255, 0.10)"
-    backdropFilter: "blur(18px) saturate(1.15)"
+    background: "rgba(8, 8, 8, 0.94)"
+    borderColor: "rgba(232, 232, 226, 0.12)"
+    boxShadow: "none"
+    backdropFilter: "none"
   header:
-    background: "linear-gradient(180deg, rgba(10, 10, 18, 0.97) 0%, rgba(5, 5, 8, 0.90) 100%)"
-    borderColor: "rgba(85, 199, 255, 0.24)"
-    boxShadow: "0 1px 0 rgba(85, 199, 255, 0.18), 0 16px 46px rgba(5, 5, 8, 0.38)"
+    background: "rgba(3, 3, 3, 0.94)"
+    borderColor: "rgba(232, 232, 226, 0.12)"
+    boxShadow: "0 1px 0 rgba(232, 232, 226, 0.08)"
   sidebar:
-    background: "linear-gradient(180deg, rgba(12, 10, 22, 0.92) 0%, rgba(5, 5, 8, 0.92) 100%)"
-    borderColor: "rgba(243, 166, 200, 0.24)"
-    boxShadow: "inset -1px 0 0 rgba(85, 199, 255, 0.16), 16px 0 44px rgba(5, 5, 8, 0.34)"
+    background: "rgba(3, 3, 3, 0.94)"
+    borderColor: "rgba(232, 232, 226, 0.10)"
+    boxShadow: "none"
   tab:
-    background: "linear-gradient(180deg, rgba(243, 166, 200, 0.10), rgba(124, 92, 255, 0.08))"
-    borderColor: "rgba(243, 166, 200, 0.22)"
+    background: "rgba(232, 232, 226, 0.035)"
+    borderColor: "rgba(232, 232, 226, 0.10)"
   badge:
-    background: "rgba(124, 92, 255, 0.18)"
-    borderColor: "rgba(85, 199, 255, 0.24)"
+    background: "rgba(232, 232, 226, 0.045)"
+    borderColor: "rgba(232, 232, 226, 0.12)"
   progress:
-    background: "linear-gradient(90deg, #F3A6C8 0%, #7C5CFF 52%, #55C7FF 100%)"
+    background: "linear-gradient(90deg, #D8A6BA 0%, #8EA0A8 100%)"
   backdrop:
     backgroundSize: "cover"
     backgroundPosition: "center"
-    fillerOpacity: "1"
-    fillerBlendMode: "screen"
+    fillerOpacity: "0.08"
+    fillerBlendMode: "normal"
   footer:
-    background: "linear-gradient(0deg, rgba(5, 5, 8, 0.95), rgba(5, 5, 8, 0.78))"
+    background: "rgba(3, 3, 3, 0.92)"
   page:
     background: "transparent"
 
 colorOverrides:
-  card: "rgba(16, 16, 26, 0.92)"
-  cardForeground: "#F6EAF2"
-  popover: "rgba(12, 12, 20, 0.98)"
-  popoverForeground: "#F6EAF2"
-  primary: "#F3A6C8"
-  primaryForeground: "#050508"
-  secondary: "rgba(124, 92, 255, 0.20)"
-  secondaryForeground: "#F6EAF2"
-  muted: "rgba(184, 154, 166, 0.14)"
-  mutedForeground: "#B89AA6"
-  accent: "#55C7FF"
-  accentForeground: "#050508"
-  destructive: "#FF6B8A"
-  destructiveForeground: "#050508"
-  success: "#7EE0B5"
-  warning: "#C6A0FF"
-  border: "rgba(243, 166, 200, 0.24)"
-  input: "rgba(243, 166, 200, 0.18)"
-  ring: "#7C5CFF"
+  card: "rgba(8, 8, 8, 0.94)"
+  cardForeground: "#E8E8E2"
+  popover: "rgba(6, 6, 6, 0.96)"
+  popoverForeground: "#E8E8E2"
+  primary: "#D8A6BA"
+  primaryForeground: "#030303"
+  secondary: "rgba(232, 232, 226, 0.055)"
+  secondaryForeground: "#D6D6CE"
+  muted: "rgba(232, 232, 226, 0.045)"
+  mutedForeground: "#85857D"
+  accent: "#8EA0A8"
+  accentForeground: "#030303"
+  destructive: "#C7808D"
+  destructiveForeground: "#030303"
+  success: "#9FB8A7"
+  warning: "#C2A16A"
+  border: "rgba(232, 232, 226, 0.12)"
+  input: "rgba(232, 232, 226, 0.14)"
+  ring: "#8EA0A8"
 
 customCSS: |
+  :root[data-layout-variant="standard"] body {
+    background: #030303;
+    color: #e8e8e2;
+    font-feature-settings: "tnum" 1, "ss01" 1;
+    text-rendering: geometricPrecision;
+  }
+
   :root[data-layout-variant="standard"] body::before {
     content: "";
     position: fixed;
@@ -102,34 +109,89 @@ customCSS: |
     pointer-events: none;
     z-index: 1;
     background:
-      radial-gradient(circle at 20% 8%, rgba(243, 166, 200, 0.12), transparent 28%),
-      radial-gradient(circle at 88% 14%, rgba(85, 199, 255, 0.08), transparent 24%),
-      repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(243, 166, 200, 0.016) 4px, transparent 5px);
-    mix-blend-mode: screen;
+      linear-gradient(180deg, rgba(232, 232, 226, 0.026), transparent 18rem),
+      linear-gradient(90deg, transparent 0%, rgba(232, 232, 226, 0.018) 50%, transparent 100%);
+    mix-blend-mode: normal;
   }
 
-  :root[data-layout-variant="standard"] body::after {
-    content: "";
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 34vh;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.20;
-    background:
-      linear-gradient(180deg, transparent 0%, rgba(5, 5, 8, 0.92) 100%),
-      repeating-linear-gradient(90deg, transparent 0 22px, rgba(85, 199, 255, 0.18) 23px 24px, transparent 25px 52px),
-      linear-gradient(90deg, rgba(243, 166, 200, 0.18), rgba(124, 92, 255, 0.08), rgba(85, 199, 255, 0.18));
-    clip-path: polygon(0 46%, 6% 46%, 6% 34%, 11% 34%, 11% 52%, 18% 52%, 18% 26%, 23% 26%, 23% 48%, 31% 48%, 31% 37%, 37% 37%, 37% 55%, 45% 55%, 45% 28%, 51% 28%, 51% 48%, 61% 48%, 61% 31%, 68% 31%, 68% 57%, 77% 57%, 77% 40%, 84% 40%, 84% 50%, 91% 50%, 91% 33%, 100% 33%, 100% 100%, 0 100%);
+  :root[data-layout-variant="standard"] h1,
+  :root[data-layout-variant="standard"] h2,
+  :root[data-layout-variant="standard"] h3,
+  :root[data-layout-variant="standard"] .font-serif {
+    font-family: var(--theme-font-display, "Geist Mono", ui-monospace, monospace);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  :root[data-layout-variant="standard"] nav a,
+  :root[data-layout-variant="standard"] nav button,
+  :root[data-layout-variant="standard"] .font-mondwest,
+  :root[data-layout-variant="standard"] .font-compressed,
+  :root[data-layout-variant="standard"] .font-courier,
+  :root[data-layout-variant="standard"] table th,
+  :root[data-layout-variant="standard"] [role="columnheader"] {
+    font-family: var(--theme-font-mono, "Geist Mono", ui-monospace, monospace) !important;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  :root[data-layout-variant="standard"] .font-sans {
+    font-family: var(--theme-font-sans, "Geist", system-ui, sans-serif) !important;
+  }
+
+  :root[data-layout-variant="standard"] table td,
+  :root[data-layout-variant="standard"] [role="cell"] {
+    font-size: 0.78rem;
+    letter-spacing: 0.004em;
+  }
+
+  :root[data-layout-variant="standard"] main .text-sm.truncate {
+    color: #e8e8e2;
+    font-family: var(--theme-font-sans, "Geist", system-ui, sans-serif) !important;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.006em;
+    text-transform: none;
+  }
+
+  :root[data-layout-variant="standard"] main .text-xs {
+    font-family: var(--theme-font-mono, "Geist Mono", ui-monospace, monospace) !important;
+    font-size: 0.69rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  :root[data-layout-variant="standard"] main .text-xs.text-muted-foreground {
+    color: #9a9a92 !important;
+  }
+
+  :root[data-layout-variant="standard"] main input {
+    background: rgba(8, 8, 8, 0.76) !important;
+    border-color: rgba(232, 232, 226, 0.18) !important;
+    color: #e8e8e2;
+    font-family: var(--theme-font-sans, "Geist", system-ui, sans-serif) !important;
+    text-transform: none;
+  }
+
+  :root[data-layout-variant="standard"] main .font-compressed {
+    background: transparent !important;
+    border-color: rgba(232, 232, 226, 0.10) !important;
+    color: #85857d !important;
   }
 
   :root[data-layout-variant="standard"] .border-border {
-    position: relative;
+    border-color: rgba(232, 232, 226, 0.12) !important;
+    box-shadow: none;
   }
 
-  :root[data-layout-variant="standard"] .border-border::selection {
-    background: rgba(243, 166, 200, 0.32);
-    color: #050508;
+  :root[data-layout-variant="standard"] .text-muted-foreground {
+    color: #85857d !important;
+  }
+
+  :root[data-layout-variant="standard"] ::selection {
+    background: rgba(216, 166, 186, 0.28);
+    color: #030303;
   }

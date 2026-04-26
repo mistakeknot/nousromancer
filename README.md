@@ -1,6 +1,6 @@
 # DTLA Hermes Dashboard
 
-DTLA is a minimal noir operations skin for Hermes Agent: black glass, millennial pink, electric blue, and violet glow. It includes both hackathon tracks:
+DTLA is a minimal noir operations skin for Hermes Agent: a black technical ledger with ACRONYM-like labeling discipline, Veilance restraint, mono metadata, readable sans content, thin rules, and operational color only where state matters. It includes both hackathon tracks:
 
 - Theme: `theme/dtla.yaml`
 - Plugin: `plugins/dtla-mission-control/`
@@ -36,7 +36,7 @@ Refresh `hermes dashboard`, select `DTLA`, and the Now Bar appears above each pa
 
 ## What it demonstrates
 
-- A full dashboard theme using palette, typography, standard layout, assets, component chrome, color overrides, and custom CSS.
+- A full dashboard theme using palette, typography, standard layout, restrained component chrome, color overrides, and custom CSS.
 - A no-build dashboard plugin using `window.__HERMES_PLUGIN_SDK__`.
 - Slot injection into `pre-main`, `header-left`, and `header-right`.
 - A persistent Now Bar that keeps gateway health, active runs, latest trace, and the next useful action visible across routes.

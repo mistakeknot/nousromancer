@@ -64,20 +64,20 @@
   function HeaderCrestSlot() {
     return h(
       "div",
-      { className: "dtla-surface", style: { display: "flex", alignItems: "center", gap: 8, paddingLeft: 10, color: "#F3A6C8" } },
+      { className: "dtla-surface", style: { display: "flex", alignItems: "center", gap: 8, paddingLeft: 10, color: "#D8A6BA" } },
       h("svg", { width: 30, height: 30, viewBox: "0 0 30 30", fill: "none", stroke: "currentColor", strokeWidth: 1.6, "aria-hidden": true },
         h("path", { d: "M15 2 L27 15 L15 28 L3 15 Z" }),
-        h("path", { d: "M15 7 L23 15 L15 23 L7 15 Z", stroke: "#55C7FF" }),
+        h("path", { d: "M15 7 L23 15 L15 23 L7 15 Z", stroke: "#8EA0A8" }),
         h("circle", { cx: 15, cy: 15, r: 2.6, fill: "currentColor", stroke: "none" }),
       ),
-      h("span", { className: "dtla-neon-text", style: { fontWeight: 800, fontSize: "0.76rem", letterSpacing: "0.18em" } }, "DTLA"),
+      h("span", { className: "dtla-mark", style: { fontWeight: 600, fontSize: "0.72rem", letterSpacing: "0.18em" } }, "DTLA"),
     );
   }
 
   function HeaderRightSlot() {
     return h(
       "div",
-      { className: "dtla-surface", style: { display: "flex", alignItems: "center", gap: 7, marginRight: 8, border: "1px solid rgba(85,199,255,0.26)", borderRadius: 999, padding: "5px 9px", background: "rgba(85,199,255,0.07)", color: "#55C7FF", fontSize: "0.62rem", letterSpacing: "0.12em", textTransform: "uppercase" } },
+      { className: "dtla-surface", style: { display: "flex", alignItems: "center", gap: 7, marginRight: 8, border: "1px solid rgba(232,232,226,0.14)", borderRadius: 999, padding: "5px 9px", background: "rgba(232,232,226,0.035)", color: "#8EA0A8", fontSize: "0.62rem", letterSpacing: "0.12em", textTransform: "uppercase" } },
       h("span", { className: "dtla-pulse-dot", style: { width: 6, height: 6 } }),
       "night ops",
     );
