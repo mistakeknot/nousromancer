@@ -1,7 +1,3 @@
-:root:not([data-layout-variant="cockpit"]) .dtla-cockpit-only {
-  display: none !important;
-}
-
 .dtla-hud-card {
   border: 1px solid rgba(243, 166, 200, 0.24);
   background: linear-gradient(180deg, rgba(16, 16, 26, 0.70), rgba(5, 5, 8, 0.82));

@@ -7,7 +7,7 @@ Track(s):
 Theme + Plugin
 
 Summary:
-DTLA is a noir cockpit reskin for the Hermes dashboard: black glass, millennial pink, electric blue, and violet glow. It includes a full dashboard theme plus a no-build slot plugin that adds a live mission deck above every page, a header crest, a night-ops status pill, and a future-compatible cockpit sidebar using the dashboard Plugin SDK.
+DTLA is a minimal noir operations skin for the Hermes dashboard: black glass, millennial pink, electric blue, and violet glow. It includes a full dashboard theme plus a no-build slot plugin that adds a persistent Now Bar above every page: gateway health, active runs, latest trace, and the next useful action, with a small header crest and night-ops status pill using the dashboard Plugin SDK.
 
 Install:
 ```bash
