@@ -49,3 +49,74 @@
   color: #55c7ff !important;
   background: rgba(85, 199, 255, 0.08) !important;
 }
+
+.dtla-now-bar {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto auto auto minmax(8rem, 1fr) auto;
+  margin-bottom: 1rem;
+  padding: 0.62rem 0.78rem;
+}
+
+.dtla-now-label,
+.dtla-now-item,
+.dtla-now-action {
+  font-family: var(--theme-font-mono, ui-monospace, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dtla-now-label {
+  color: #f3a6c8;
+  font-weight: 850;
+}
+
+.dtla-now-item {
+  border: 1px solid rgba(243, 166, 200, 0.18);
+  border-radius: 999px;
+  color: var(--color-muted-foreground);
+  padding: 0.25rem 0.48rem;
+  white-space: nowrap;
+}
+
+.dtla-now-item--live,
+.dtla-now-item--active {
+  border-color: rgba(85, 199, 255, 0.32);
+  color: #55c7ff;
+}
+
+.dtla-now-item--warn {
+  border-color: rgba(255, 107, 138, 0.38);
+  color: #ff8daa;
+}
+
+.dtla-now-item--muted {
+  color: #b89aa6;
+}
+
+.dtla-now-trace {
+  color: #f6eaf2;
+  font-size: 0.78rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dtla-now-action {
+  color: #f3a6c8;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dtla-now-action:hover {
+  color: #55c7ff;
+}
+
+@media (max-width: 900px) {
+  .dtla-now-bar {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,11 +1,11 @@
 # DTLA Hermes Dashboard
 
-DTLA is a noir dashboard reskin for Hermes Agent: black glass, millennial pink, electric blue, and violet glow. It includes both hackathon tracks:
+DTLA is a minimal noir operations skin for Hermes Agent: black glass, millennial pink, electric blue, and violet glow. It includes both hackathon tracks:
 
 - Theme: `theme/dtla.yaml`
 - Plugin: `plugins/dtla-mission-control/`
 
-The theme switches the dashboard into cockpit layout. The companion plugin adds a live DTLA mission deck above every page, a header crest, a night-ops status pill, and a future-compatible cockpit sidebar HUD when the dashboard exposes the `sidebar` slot.
+The theme switches the dashboard into cockpit layout. The companion plugin adds a persistent Now Bar above every page: gateway health, active runs, latest trace, and the next useful action in one restrained strip. It also adds a header crest, a night-ops status pill, and a future-compatible cockpit sidebar HUD when the dashboard exposes the `sidebar` slot.
 
 ## Install
 
@@ -39,6 +39,7 @@ Refresh `hermes dashboard`, select `DTLA`, and the cockpit HUD appears.
 - A full dashboard theme using palette, typography, cockpit layout, assets, component chrome, color overrides, and custom CSS.
 - A no-build dashboard plugin using `window.__HERMES_PLUGIN_SDK__`.
 - Slot injection into `pre-main`, `header-left`, `header-right`, and future-compatible `sidebar`.
+- A persistent Now Bar that keeps gateway health, active runs, latest trace, and the next useful action visible across routes.
 - Live data from `SDK.api.getStatus()` and `SDK.api.getSessions()`.
 - Theme/plugin composition without forking Hermes or running an npm build.
 

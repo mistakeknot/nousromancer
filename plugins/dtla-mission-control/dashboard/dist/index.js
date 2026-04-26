@@ -247,28 +247,52 @@
     );
   }
 
+  function isGatewayLive(status) {
+    if (!status) return false;
+    return status.gateway_running === true || status.gateway_online === true;
+  }
+
+  function activeSessionCount(status, sessions) {
+    if (status && typeof status.active_sessions === "number") return status.active_sessions;
+    if (Array.isArray(status && status.active_sessions)) return status.active_sessions.length;
+    return (sessions || []).filter(function (session) { return session && session.is_active; }).length;
+  }
+
+  function NowItem(props) {
+    return h(
+      "span",
+      { className: props.tone ? "dtla-now-item dtla-now-item--" + props.tone : "dtla-now-item" },
+      props.children,
+    );
+  }
+
+  function NowAction(props) {
+    return h(
+      "a",
+      { className: "dtla-now-action", href: props.href },
+      props.children,
+    );
+  }
+
   function PreMainSlot() {
     const data = useMissionData();
     const status = data.status;
     const sessions = data.sessions || [];
-    const count = status && typeof status.active_sessions === "number" ? status.active_sessions : 0;
-    const gateway = status && status.gateway_running ? "online" : "offline";
+    const count = activeSessionCount(status, sessions);
+    const gatewayLive = isGatewayLive(status);
+    const latest = sessions[0];
+    const latestTitle = sessions.length ? recentTitle(latest).slice(0, 72) : "No recent trace";
+    const actionHref = gatewayLive ? "/sessions" : "/logs";
+    const actionLabel = gatewayLive ? "Trace" : "Open logs";
+
     return h(
       "div",
-      { className: "dtla-cockpit-only dtla-hud-card", style: { marginBottom: "1rem", padding: "0.85rem 1rem", display: "grid", gridTemplateColumns: "minmax(0, 1.4fr) repeat(3, auto)", alignItems: "center", gap: "1rem" } },
-      h("div", null,
-        h("div", { style: { color: "#F3A6C8", fontWeight: 800, letterSpacing: "0.09em", textTransform: "uppercase" } }, "DTLA mission deck"),
-        h("div", { style: { color: "var(--color-muted-foreground)", fontSize: "0.78rem" } }, "Live dashboard signal from Hermes status + recent sessions APIs."),
-      ),
-      h("div", { style: { textAlign: "right" } },
-        h("div", { style: { color: "#55C7FF", fontWeight: 800, fontSize: "1.15rem" } }, String(count)),
-        h("div", { style: { color: "var(--color-muted-foreground)", fontSize: "0.58rem", letterSpacing: "0.12em" } }, "active"),
-      ),
-      h("div", { style: { textAlign: "right" } },
-        h("div", { style: { color: gateway === "online" ? "#7EE0B5" : "#C6A0FF", fontWeight: 800, fontSize: "0.82rem", textTransform: "uppercase" } }, gateway),
-        h("div", { style: { color: "var(--color-muted-foreground)", fontSize: "0.58rem", letterSpacing: "0.12em" } }, "gateway"),
-      ),
-      h("div", { style: { color: "#B89AA6", fontSize: "0.68rem", maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, sessions.length ? recentTitle(sessions[0]) : "No recent session signal"),
+      { className: "dtla-cockpit-only dtla-hud-card dtla-now-bar" },
+      h("div", { className: "dtla-now-label" }, "Now"),
+      h(NowItem, { tone: gatewayLive ? "live" : "warn" }, gatewayLive ? "Gateway live" : "Gateway offline"),
+      h(NowItem, { tone: count ? "active" : "muted" }, count + " active"),
+      h("span", { className: "dtla-now-trace", title: latestTitle }, "Last trace: ", latestTitle),
+      h(NowAction, { href: actionHref }, actionLabel, " →"),
     );
   }
 
