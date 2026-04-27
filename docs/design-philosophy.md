@@ -33,10 +33,17 @@ Where:
 
 ## Typography doctrine
 
+Accepted compression model:
+
+> Readable by default; dense/code-like only for metadata, IDs, status, and machine-state.
+
+This is an **adaptive split**, not a blanket style.
+
 - Brand moments may be stylized; functional surfaces must be legible first.
-- Use mono for labels, states, IDs, timestamps, counts, and metadata.
-- Use readable sans for session titles, descriptions, and longer user-facing content.
-- Use uppercase/tracking as a labeling device, not a blanket style.
+- Use mono for labels, states, IDs, timestamps, counts, source chips, and metadata.
+- Use readable sans for session titles, descriptions, search, controls, and longer user-facing content.
+- Use uppercase/tracking as a labeling device, not a blanket treatment.
+- Keep session titles and actions readable at screenshot scale.
 - Let contrast, alignment, and spacing carry hierarchy before color or glow.
 
 ## Product doctrine
@@ -74,4 +81,4 @@ or:
 
 ## Open interview track
 
-The next unresolved decision is typography temperature: how far DTLA should lean toward technical garment compression versus operational-index legibility.
+The next unresolved decision is the primary readable sans personality: what the non-metadata text should feel like when it is not being compressed into technical labels.
