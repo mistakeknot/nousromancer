@@ -38,6 +38,15 @@ test('DTLA theme reduces cockpit glow/noise into a restrained ledger surface', a
   assert.ok(Math.max(...alphaValues(theme)) <= 0.96, 'surface alphas stay restrained and avoid opaque glow layers');
 });
 
+test('DTLA theme restyles native scrollbars so screenshots keep the quiet app frame', async () => {
+  const theme = await readFile(THEME_PATH, 'utf8');
+
+  assert.match(theme, /scrollbar-color/);
+  assert.match(theme, /::-webkit-scrollbar/);
+  assert.match(theme, /::-webkit-scrollbar-thumb/);
+  assert.match(theme, /background:\s*rgba\(232, 232, 226, 0\.16\)/);
+});
+
 test('DTLA plugin chrome uses muted technical labels, not neon HUD treatment', async () => {
   const css = await readFile(CSS_PATH, 'utf8');
 

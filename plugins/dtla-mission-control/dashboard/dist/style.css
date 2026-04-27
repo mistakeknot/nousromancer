@@ -89,6 +89,55 @@
   color: #e8e8e2;
 }
 
+/* Sessions polish: turn repeated source chips into quiet metadata and hide destructive actions until intent. */
+main input[data-dtla-search-polished="true"] {
+  min-width: 18rem;
+}
+
+main input[data-dtla-search-polished="true"]::placeholder {
+  color: #9a9a92;
+}
+
+main [data-dtla-source-chip="true"] {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #7f7f77 !important;
+  font-size: 0.56rem !important;
+  justify-content: flex-start;
+  letter-spacing: 0.08em !important;
+  min-width: 5.25rem;
+  opacity: 0.72;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+main .cursor-pointer:hover [data-dtla-source-chip="true"] {
+  color: #9a9a92 !important;
+  opacity: 0.88;
+}
+
+main button[data-dtla-danger-action="delete"] {
+  opacity: 0;
+  transform: translateX(2px);
+  transition: color 140ms ease, opacity 140ms ease, transform 140ms ease;
+}
+
+main .cursor-pointer:hover button[data-dtla-danger-action="delete"],
+main button[data-dtla-danger-action="delete"]:focus-visible {
+  opacity: 0.55;
+  transform: translateX(0);
+}
+
+main button[data-dtla-danger-action="delete"]:hover {
+  opacity: 1;
+}
+
+@media (pointer: coarse) {
+  main button[data-dtla-danger-action="delete"] {
+    opacity: 0.45;
+  }
+}
+
 @media (max-width: 900px) {
   .dtla-now-bar {
     grid-template-columns: 1fr;

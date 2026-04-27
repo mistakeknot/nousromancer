@@ -102,6 +102,59 @@
     return (sessions || []).filter(function (session) { return session && session.is_active; }).length;
   }
 
+  const SESSION_SOURCES = ["cli", "telegram", "discord", "slack", "whatsapp", "cron", "local"];
+
+  function sessionSource(text) {
+    const normalized = String(text || "").trim().toLowerCase();
+    if (normalized.indexOf("src:") === 0) return normalized.slice(4).trim();
+    return SESSION_SOURCES.indexOf(normalized) >= 0 ? normalized : null;
+  }
+
+  function polishSessionsDom() {
+    if (typeof document === "undefined") return;
+
+    const searchInput =
+      document.querySelector('main input[data-dtla-search-polished="true"]') ||
+      document.querySelector('main input[placeholder="Search message content..."]');
+    if (searchInput) {
+      searchInput.placeholder = "Search session text";
+      searchInput.dataset.dtlaSearchPolished = "true";
+      searchInput.setAttribute("aria-label", "Search across session messages");
+      searchInput.setAttribute("title", "Search across session messages");
+    }
+
+    const deleteButtons = document.querySelectorAll('main button[aria-label="Delete session"]');
+    deleteButtons.forEach(function (button) {
+      button.dataset.dtlaDangerAction = "delete";
+      button.setAttribute("title", "Delete session");
+
+      const rail = button.parentElement;
+      if (!rail || !rail.querySelector) return;
+      const sourceBadge = rail.querySelector('[data-dtla-source-chip="true"], .inline-flex.items-center.border');
+      const source = sessionSource(sourceBadge && (sourceBadge.dataset.dtlaSourceOriginal || sourceBadge.textContent));
+      if (!source) return;
+
+      sourceBadge.dataset.dtlaSourceOriginal = source;
+      sourceBadge.dataset.dtlaSourceChip = "true";
+      sourceBadge.textContent = "src:" + source;
+      sourceBadge.setAttribute("aria-label", "Session source: " + source);
+      sourceBadge.setAttribute("title", "Session source: " + source);
+    });
+  }
+
+  function useSessionListPolish() {
+    useEffect(function () {
+      polishSessionsDom();
+      const Observer = typeof MutationObserver !== "undefined" ? MutationObserver : window.MutationObserver;
+      if (!Observer || typeof document === "undefined" || !document.body) return undefined;
+      const observer = new Observer(polishSessionsDom);
+      observer.observe(document.body, { childList: true, subtree: true });
+      return function () {
+        observer.disconnect();
+      };
+    }, []);
+  }
+
   function NowItem(props) {
     return h(
       "span",
@@ -119,6 +172,7 @@
   }
 
   function PreMainSlot() {
+    useSessionListPolish();
     const data = useMissionData();
     const status = data.status;
     const sessions = data.sessions || [];

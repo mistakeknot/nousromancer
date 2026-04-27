@@ -40,6 +40,7 @@ Refresh `hermes dashboard`, select `DTLA`, and the Now Bar appears above each pa
 - A no-build dashboard plugin using `window.__HERMES_PLUGIN_SDK__`.
 - Slot injection into `pre-main`, `header-left`, and `header-right`.
 - A persistent Now Bar that keeps gateway health, active runs, latest trace, and the next useful action visible across routes.
+- Session-list polish that clarifies search copy, marks source chips as metadata, and demotes delete controls until intent.
 - Live data from `SDK.api.getStatus()` and `SDK.api.getSessions()`.
 - Theme/plugin composition without forking Hermes or running an npm build.
 ## Files

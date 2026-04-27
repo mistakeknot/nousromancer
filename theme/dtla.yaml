@@ -99,7 +99,28 @@ customCSS: |
     background: #030303;
     color: #e8e8e2;
     font-feature-settings: "tnum" 1, "ss01" 1;
+    scrollbar-color: rgba(232, 232, 226, 0.16) transparent;
+    scrollbar-width: thin;
     text-rendering: geometricPrecision;
+  }
+
+  :root[data-layout-variant="standard"] ::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+
+  :root[data-layout-variant="standard"] ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :root[data-layout-variant="standard"] ::-webkit-scrollbar-thumb {
+    background: rgba(232, 232, 226, 0.16);
+    border: 2px solid #030303;
+    border-radius: 999px;
+  }
+
+  :root[data-layout-variant="standard"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(232, 232, 226, 0.24);
   }
 
   :root[data-layout-variant="standard"] body::before {
