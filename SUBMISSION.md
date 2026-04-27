@@ -1,7 +1,7 @@
 Nousromancer Hermes Dashboard — hackathon submission
 
 GitHub:
-https://github.com/mistakeknot/nousromancer-hermes-dashboard
+https://github.com/mistakeknot/nousromancer
 
 Track(s):
 Theme + Plugin
@@ -11,8 +11,8 @@ Nousromancer is a minimal noir operations skin for the Hermes dashboard: a black
 
 Install:
 ```bash
-git clone https://github.com/mistakeknot/nousromancer-hermes-dashboard.git
-cd nousromancer-hermes-dashboard
+git clone https://github.com/mistakeknot/nousromancer.git
+cd nousromancer
 ./scripts/install.sh
 hermes dashboard
 ```

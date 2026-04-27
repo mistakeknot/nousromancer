@@ -10,8 +10,8 @@ The theme keeps the dashboard in the standard layout to avoid sidebar collisions
 ## Install
 
 ```bash
-git clone https://github.com/mistakeknot/nousromancer-hermes-dashboard.git
-cd nousromancer-hermes-dashboard
+git clone https://github.com/mistakeknot/nousromancer.git
+cd nousromancer
 ./scripts/install.sh
 hermes dashboard
 ```
