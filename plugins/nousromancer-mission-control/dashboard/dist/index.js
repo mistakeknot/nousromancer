@@ -25,7 +25,7 @@
   }
 
   function useMissionData() {
-    const initial = { status: null, sessions: [], error: null };
+    const initial = { status: null, sessions: [], error: null, refreshedAt: null };
     const state = useState(initial);
     const data = state[0];
     const setData = state[1];
@@ -44,10 +44,20 @@
               status: status,
               sessions: Array.isArray(sessionsResponse.sessions) ? sessionsResponse.sessions : [],
               error: null,
+              refreshedAt: new Date().toISOString(),
             });
           })
           .catch(function (error) {
-            if (!cancelled) setData({ status: null, sessions: [], error: error });
+            if (cancelled) return;
+            setData(function (previous) {
+              previous = previous || initial;
+              return {
+                status: previous.status,
+                sessions: Array.isArray(previous.sessions) ? previous.sessions : [],
+                error: error,
+                refreshedAt: previous.refreshedAt || null,
+              };
+            });
           });
       }
       load();
@@ -100,6 +110,31 @@
     if (status && typeof status.active_sessions === "number") return status.active_sessions;
     if (Array.isArray(status && status.active_sessions)) return status.active_sessions.length;
     return (sessions || []).filter(function (session) { return session && session.is_active; }).length;
+  }
+
+  function errorMessage(error) {
+    if (!error) return "";
+    if (error.message) return String(error.message);
+    return String(error);
+  }
+
+  function formatAge(minutes) {
+    if (minutes < 1) return "now";
+    if (minutes < 60) return minutes + "m";
+    return Math.floor(minutes / 60) + "h";
+  }
+
+  function freshnessState(refreshedAt, nowMs) {
+    if (!refreshedAt) return { label: "No refresh", tone: "muted" };
+    const refreshedMs = Date.parse(refreshedAt);
+    if (!Number.isFinite(refreshedMs)) return { label: "No refresh", tone: "muted" };
+    const currentMs = typeof nowMs === "number" ? nowMs : Date.now();
+    const ageMinutes = Math.max(0, Math.floor((currentMs - refreshedMs) / 60000));
+    const stale = ageMinutes >= 10;
+    return {
+      label: (stale ? "Stale " : "Updated ") + formatAge(ageMinutes),
+      tone: stale ? "warn" : "muted",
+    };
   }
 
   const SESSION_SOURCES = ["cli", "telegram", "discord", "slack", "whatsapp", "cron", "local"];
@@ -166,7 +201,7 @@
   function NowAction(props) {
     return h(
       "a",
-      { className: "nousromancer-now-action", href: props.href },
+      { className: "nousromancer-now-action", href: props.href, title: props.title, "aria-label": props.title },
       props.children,
     );
   }
@@ -180,17 +215,27 @@
     const gatewayLive = isGatewayLive(status);
     const latest = sessions[0];
     const latestTitle = sessions.length ? recentTitle(latest).slice(0, 72) : "No recent trace";
-    const actionHref = gatewayLive ? "/sessions" : "/logs";
-    const actionLabel = gatewayLive ? "Trace" : "Open logs";
+    const apiError = data.error ? errorMessage(data.error) : "";
+    const hasApiError = Boolean(apiError);
+    const freshness = freshnessState(data.refreshedAt, data.nowMs);
+    const actionHref = gatewayLive && !hasApiError ? "/sessions" : "/logs";
+    const actionLabel = gatewayLive && !hasApiError ? "Trace" : "Open logs";
+    const actionTitle = hasApiError
+      ? "Dashboard API error: " + apiError
+      : gatewayLive
+        ? "Open recent Hermes sessions"
+        : "Open dashboard logs for gateway status";
+    const gatewayLabel = hasApiError ? "API error" : gatewayLive ? "Gateway live" : "Gateway offline";
 
     return h(
       "div",
       { className: "nousromancer-surface nousromancer-hud-card nousromancer-now-bar" },
       h("div", { className: "nousromancer-now-label" }, "Now"),
-      h(NowItem, { tone: gatewayLive ? "live" : "warn" }, gatewayLive ? "Gateway live" : "Gateway offline"),
+      h(NowItem, { tone: gatewayLive && !hasApiError ? "live" : "warn" }, gatewayLabel),
       h(NowItem, { tone: count ? "active" : "muted" }, count + " active"),
+      h(NowItem, { tone: freshness.tone }, freshness.label),
       h("span", { className: "nousromancer-now-trace", title: latestTitle }, "Last trace: ", latestTitle),
-      h(NowAction, { href: actionHref }, actionLabel, " →"),
+      h(NowAction, { href: actionHref, title: actionTitle }, actionLabel, " →"),
     );
   }
 

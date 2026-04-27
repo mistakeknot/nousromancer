@@ -97,6 +97,39 @@ test('pre-main Now Bar makes offline state actionable without decorative telemet
   assert.ok(links.some((link) => link.href === '/logs'), 'offline CTA links to logs');
 });
 
+test('pre-main Now Bar shows API errors in text and points the action at logs', async () => {
+  const node = await renderRegisteredSlot('pre-main', {
+    status: null,
+    sessions: [],
+    error: new Error('status endpoint returned 500'),
+    refreshedAt: null,
+  });
+  const text = flattenText(node).join(' ');
+  const links = collectLinks(node);
+
+  assert.match(text, /API error/i);
+  assert.match(text, /Open logs/i);
+  assert.ok(
+    links.some((link) => link.href === '/logs' && /status endpoint returned 500/i.test(link.title || '')),
+    'API error action links to logs with a useful title',
+  );
+});
+
+test('pre-main Now Bar exposes last successful refresh freshness and stale state', async () => {
+  const node = await renderRegisteredSlot('pre-main', {
+    status: { gateway_running: true, active_sessions: 0, version: '0.11.0' },
+    sessions: [],
+    error: null,
+    refreshedAt: '2026-04-27T20:00:00.000Z',
+    nowMs: Date.parse('2026-04-27T20:20:00.000Z'),
+  });
+  const text = flattenText(node).join(' ');
+
+  assert.match(text, /Gateway live/i);
+  assert.match(text, /Stale 20m/i);
+  assert.match(text, /No recent trace/i);
+});
+
 test('README explains the Now Bar usefulness in judge-scannable language', async () => {
   const source = await readFile(README_PATH, 'utf8');
 

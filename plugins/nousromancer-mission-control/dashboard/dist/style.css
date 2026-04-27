@@ -28,7 +28,7 @@
   align-items: center;
   display: grid;
   gap: 0.62rem;
-  grid-template-columns: auto auto auto minmax(8rem, 1fr) auto;
+  grid-template-columns: auto auto auto auto minmax(8rem, 1fr) auto;
   padding: 0.54rem 0.72rem;
 }
 
