@@ -1,6 +1,6 @@
 # Nousromancer functionality data contract
 
-Status: working contract for the dashboard functionality lane.
+Status: working contract for the dashboard functionality lane. User-reviewed v1 promise: staged attention layer plus conservative heuristic experiment (**B+C**).
 
 ## Purpose
 
@@ -10,7 +10,7 @@ The functionality lane should only add operator-facing behavior when the availab
 which agent needs me → why now → where do I respond
 ```
 
-The public Nousromancer plugin can help with orientation and runtime health today. It cannot yet claim reliable human-input triage without either a new Hermes session signal or a deliberately conservative heuristic.
+The public Nousromancer plugin can help with orientation and runtime health today. Its v1/demo promise is staged: show truthful health/freshness/source context, and optionally add a deliberately conservative `Possibly waiting` heuristic. It cannot yet claim reliable human-input triage without a new Hermes session signal.
 
 ## Current public dashboard APIs
 
@@ -90,10 +90,10 @@ Avoid in public Nousromancer:
 
 ## Smallest next behavior
 
-The next behavior that is both useful and truthful is a **conservative attention hint**, not a full triage queue:
+The accepted v1 behavior is **B+C**: a staged attention layer plus a conservative heuristic experiment, not a full triage queue:
 
 ```text
-Now · Gateway live · 3 active · Updated now · Latest: src:discord · Trace →
+Now · Gateway live · 3 active · Updated now · Latest: src:discord · Possibly waiting · Trace →
 ```
 
 Rules:
@@ -101,7 +101,8 @@ Rules:
 1. Keep the existing health/freshness/error pills.
 2. Derive `Latest: src:<source>` from the first returned session when present.
 3. Link to `/sessions` when the dashboard API is healthy; link to `/logs` on API/runtime errors.
-4. Do not label anything `needs input` until Hermes exposes an explicit signal or the plugin has a tested low-cost message-role heuristic.
+4. Do not label anything `needs input`, `blocked on you`, or `highest priority` until Hermes exposes an explicit signal.
+5. If the heuristic is used, label it `Possibly waiting`, source it from a bounded low-cost message-role check, and make the uncertainty visible in copy/tests.
 
 ## Follow-up implementation candidates
 
@@ -120,4 +121,4 @@ Rules:
 
 ## Decision
 
-For the current public submission, stop at health/freshness/source-orientation. Treat full human-input triage as a post-submission Hermes/API contract problem, not a CSS/plugin-polish problem.
+For the current public/demo promise, choose **B+C**: ship/show health, freshness, source orientation, and optionally a hedged `Possibly waiting` hint if implemented and tested. Treat full human-input triage as a Hermes/API contract problem, not a CSS/plugin-polish claim.

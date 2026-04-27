@@ -1,6 +1,6 @@
 # Nousromancer design philosophy
 
-Status: provisional but accepted direction after the first visual critique pass.
+Status: accepted direction. V1/demo promise is **staged attention**: truthful orientation today plus conservative possible-waiting hints, not an authoritative full-triage claim.
 
 ## Core thesis
 
@@ -59,9 +59,14 @@ Primary pain point:
 
 > Hermes operators need to know which agent most needs their input, why that input matters now, and how to think clearly enough to answer the agent well. Re-orientation still matters, but as the substrate: the dashboard should show what is alive, what changed, what is blocked, and what decision the human is being asked to make before the operator has to reconstruct context across dashboard pages, logs, Discord, CLI sessions, and memory.
 
-Product promise:
+V1 public/demo promise:
 
-> Nousromancer turns the Hermes dashboard into an agent-input triage surface: a calm black-ledger console that ranks human-needed decisions, exposes the reasoning context, and helps the operator respond precisely.
+> Nousromancer gives Hermes a calm black-ledger operator console for runtime health, session freshness, source-aware traces, and conservative “possibly waiting” attention hints—laying the groundwork for true human-input triage across agent sessions.
+
+Claim boundary:
+
+- **Truthful now:** health, freshness, active-session counts, latest source, traceability, and hedged possible-attention hints when backed by a tested heuristic.
+- **North-star, not yet a precise public claim:** authoritative priority, `blocked on you`, `needs input`, or ranked human-needed decisions.
 
 North star:
 
@@ -95,8 +100,8 @@ or:
 
 ## Implementation implications
 
-- The Now Bar should graduate from generic status into the persistent human-input queue: top waiting agent, urgency/stakes, and the next response target when available.
-- The Sessions page should be the first proof of taste: readable rows, quiet source metadata, clear search, hidden destructive actions, and enough decision context to choose answer now, ask a follow-up, defer, or clean up.
+- The Now Bar should first prove truthful health/freshness/source orientation, then add a hedged `Possibly waiting` attention hint only where a tested heuristic or upstream signal supports it.
+- The Sessions page should be the first proof of taste: readable rows, quiet source metadata, clear search, hidden destructive actions, and enough decision context to choose answer now, ask a follow-up, defer, or clean up without pretending to know priority more precisely than the data allows.
 - Future screenshot work should show human-in-the-loop usefulness before mood.
 - Future visual work should remove duplicate chrome before adding new components.
 

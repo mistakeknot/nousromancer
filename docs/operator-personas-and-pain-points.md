@@ -1,6 +1,6 @@
 # Nousromancer operator personas and pain points
 
-Status: accepted working framing for the typography/design lane.
+Status: accepted working framing for the typography/design lane. V1/demo promise is staged attention (**B+C**): orientation plus hedged possible-waiting hints, not authoritative priority.
 
 ## Primary pain point
 
@@ -8,7 +8,9 @@ Hermes operators need to know which agent most needs their input, why that input
 
 ## Product promise
 
-Nousromancer turns the Hermes dashboard into an agent-input triage surface: a calm black-ledger console that ranks human-needed decisions, exposes the reasoning context, and helps the operator respond precisely.
+Nousromancer gives Hermes a calm black-ledger operator console for runtime health, session freshness, source-aware traces, and conservative “possibly waiting” attention hints—laying the groundwork for true human-input triage across agent sessions.
+
+Boundary: v1 can help the operator orient and notice possible attention demand. It should not claim authoritative `needs input`, `blocked on you`, or `highest priority` status until Hermes exposes a real attention contract.
 
 North star:
 
@@ -28,9 +30,9 @@ which agent → why now → how to answer
 
 ## Design requirements derived from the matrix
 
-1. **Every persistent surface should answer one human-input triage question.** Prefer “which agent needs me / why now / what decision / how should I answer” over mood copy.
-2. **Prioritize human-needed agents above background activity.** Active/running state matters most when it changes what the operator should answer next.
-3. **Show the decision frame, not just state.** Rows and persistent bars should expose the agent ask, stakes, relevant context, response target, and enough evidence to answer well.
+1. **Every persistent surface should support one human-input triage question.** Prefer “which agent needs me / why now / what decision / how should I answer” over mood copy, while being explicit when v1 only has orientation signals.
+2. **Prioritize human-needed agents above background activity when the signal exists.** Until then, show truthful recency, freshness, source, and hedged possible-waiting hints rather than fake certainty.
+3. **Show the decision frame, not just state.** Rows and persistent bars should expose the best available ask, stakes, relevant context, response target, and evidence; missing attention data should remain visible as a product gap.
 4. **Use visual density as a triage tool, not as identity by itself.** Rows can become ledger-like only where the added structure helps choose answer now, ask a follow-up, defer, investigate, or clean up.
 5. **Separate readable content from machine metadata.** Session titles, controls, decision summaries, and proposed response cues remain readable neutral sans; IDs, timestamps, source chips, counts, and states carry the product-spec mono rhythm.
 6. **Make status actionable and non-color-only.** Health, stale, blocked, degraded, and offline states need text labels and a clear next action.
@@ -38,7 +40,7 @@ which agent → why now → how to answer
 
 ## Implications for the next styling pass
 
-- The Now Bar is the primary proof of persistent human-input triage: top waiting agent, urgency/stakes, and the next response target when available.
-- Sessions rows should be judged by whether a returning operator can decide: answer now, ask a follow-up, defer, investigate, or clean up.
-- Analytics should show changed-since-last-look, attention demand, and health/usage signal before decorative chart atmosphere.
+- The Now Bar is the primary proof of staged attention: health, freshness, latest source, and possibly-waiting hints before any authoritative priority claim.
+- Sessions rows should be judged by whether a returning operator can decide: answer now, ask a follow-up, defer, investigate, or clean up, while preserving uncertainty when attention signals are heuristic.
+- Analytics should show changed-since-last-look, possible attention demand, and health/usage signal before decorative chart atmosphere.
 - Typography choices are successful only if they reduce response friction; technical-garment flavor should come from labels, spacing, and metadata discipline rather than making functional content harder to read.
