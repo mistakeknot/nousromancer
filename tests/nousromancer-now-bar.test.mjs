@@ -130,6 +130,39 @@ test('pre-main Now Bar exposes last successful refresh freshness and stale state
   assert.match(text, /No recent trace/i);
 });
 
+test('pre-main Now Bar labels the latest session source without exposing raw private handles', async () => {
+  const channelId = ['1497801532', '383428660'].join('');
+  const threadId = ['1498420617', '710407823'].join('');
+  const node = await renderRegisteredSlot('pre-main', {
+    status: { gateway_running: true, active_sessions: 1, version: '0.11.0' },
+    sessions: [{
+      id: 'sess-discord',
+      title: 'Discord triage handoff',
+      is_active: true,
+      source: 'discord',
+      channel_id: channelId,
+      thread_id: threadId,
+    }],
+    error: null,
+  });
+  const text = flattenText(node).join(' ');
+
+  assert.match(text, /Latest: src:discord/i);
+  assert.doesNotMatch(text, new RegExp(`${channelId}|${threadId}`));
+});
+
+test('pre-main Now Bar omits the latest source hint when source evidence is absent', async () => {
+  const node = await renderRegisteredSlot('pre-main', {
+    status: { gateway_running: true, active_sessions: 1, version: '0.11.0' },
+    sessions: [{ id: 'sess-no-source', title: 'Local cleanup', is_active: true }],
+    error: null,
+  });
+  const text = flattenText(node).join(' ');
+
+  assert.doesNotMatch(text, /Latest:/i);
+  assert.doesNotMatch(text, /src:/i);
+});
+
 test('pre-main Now Bar shows a hedged Possibly waiting hint for assistant question turns', async () => {
   const node = await renderRegisteredSlot('pre-main', {
     status: { gateway_running: true, active_sessions: 1, version: '0.11.0' },

@@ -247,6 +247,12 @@
     return SESSION_SOURCES.indexOf(normalized) >= 0 ? normalized : null;
   }
 
+  function latestSessionSource(session) {
+    const raw = firstTextField(session, ["source", "platform", "origin", "input_source", "inputSource", "session_source", "sessionSource"]);
+    const source = sessionSource(raw);
+    return SESSION_SOURCES.indexOf(source) >= 0 ? source : null;
+  }
+
   function polishSessionsDom() {
     if (typeof document === "undefined") return;
 
@@ -320,6 +326,7 @@
     const gatewayLive = isGatewayLive(status);
     const latest = sessions[0];
     const latestTitle = sessions.length ? recentTitle(latest).slice(0, 72) : "No recent trace";
+    const latestSource = latestSessionSource(latest);
     const apiError = data.error ? errorMessage(data.error) : "";
     const hasApiError = Boolean(apiError);
     const freshness = freshnessState(data.refreshedAt, data.nowMs);
@@ -340,6 +347,7 @@
       h(NowItem, { tone: gatewayLive && !hasApiError ? "live" : "warn" }, gatewayLabel),
       h(NowItem, { tone: count ? "active" : "muted" }, count + " active"),
       h(NowItem, { tone: freshness.tone }, freshness.label),
+      latestSource ? h(NowItem, { tone: "muted", title: "Latest session source: " + latestSource }, "Latest: src:" + latestSource) : null,
       attentionHint ? h(NowItem, { tone: attentionHint.tone, title: attentionHint.title }, attentionHint.label) : null,
       h("span", { className: "nousromancer-now-trace", title: latestTitle }, "Last trace: ", latestTitle),
       h(NowAction, { href: actionHref, title: actionTitle }, actionLabel, " →"),

@@ -7,7 +7,7 @@ Track(s):
 Theme + Plugin
 
 Summary:
-Nousromancer is a minimal noir operations skin for the Hermes dashboard: a black technical ledger with ACRONYM-like labeling discipline, Veilance restraint, mono metadata, readable sans content, thin rules, and operational color only where state matters. It includes a full dashboard theme plus a no-build slot plugin that adds a persistent Now Bar above every page: gateway health, active runs, latest trace, data freshness, API-error/offline state, conservative `Possibly waiting` hints from assistant question-like turns or session error/stall evidence, and the next useful action. The plugin also polishes the Sessions page by clarifying search copy, treating source labels as quiet metadata, and demoting destructive delete controls until the user shows intent. It deliberately avoids authoritative `needs input`, `blocked on you`, or `highest priority` claims until Hermes exposes explicit attention fields.
+Nousromancer is a minimal noir operations skin for the Hermes dashboard: a black technical ledger with ACRONYM-like labeling discipline, Veilance restraint, mono metadata, readable sans content, thin rules, and operational color only where state matters. It includes a full dashboard theme plus a no-build slot plugin that adds a persistent Now Bar above every page: gateway health, active runs, latest trace, latest session source, data freshness, API-error/offline state, conservative `Possibly waiting` hints from assistant question-like turns or session error/stall evidence, and the next useful action. The plugin also polishes the Sessions page by clarifying search copy, treating source labels as quiet metadata, and demoting destructive delete controls until the user shows intent. It deliberately avoids authoritative `needs input`, `blocked on you`, or `highest priority` claims until Hermes exposes explicit attention fields.
 
 Install:
 ```bash
@@ -18,4 +18,4 @@ hermes dashboard
 ```
 
 Screenshots/video:
-Attach the files from `screenshots/` or record the local dashboard after selecting Nousromancer.
+Attach the current public-safe files from `screenshots/`: the Status and Analytics captures show the Nousromancer Now Bar, including `Latest: src:discord`, without private handles or raw Discord IDs.
