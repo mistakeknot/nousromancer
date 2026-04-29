@@ -118,8 +118,11 @@ Current infrastructure:
    - Tests: source shown for latest session; absent sessions keep `No recent trace`; no private handles.
 
 2. **Session attention contract upstream**
-   - Propose or implement a Hermes `attention_state` / `waiting_on_human` field in the session list API.
-   - Tests: list endpoint includes conservative default; UI can rank without fetching every message.
+   - Upstream Hermes Agent work lives in `hermes-tp4`.
+   - Proposed additive session-list fields: `attention_state`, `attention_reason`, `response_target`, and `attention_evidence`.
+   - Conservative defaults: old/non-explicit sessions report `attention_state: unknown`, safe dashboard-session response targets, and no evidence.
+   - Explicit states may include `possibly_waiting`, `waiting_on_human`, `blocked`, or `error`, but public Nousromancer must still avoid `needs input`, `blocked on you`, and `highest priority` copy unless upstream evidence is explicit and sanitized.
+   - Tests: list endpoint includes conservative default; UI can consume explicit/sanitized fields without fetching every message.
 
 3. **Sessions row attention context**
    - Carry the tested `Possibly waiting` evidence into Sessions row metadata.
