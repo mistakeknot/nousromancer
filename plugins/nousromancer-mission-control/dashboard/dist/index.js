@@ -139,6 +139,9 @@
 
   const ASSISTANT_ROLES = ["assistant", "agent", "ai", "model"];
   const ERROR_OR_STALL_STATES = ["blocked", "degraded", "error", "failed", "failure", "interrupted", "stale", "stalled", "waiting"];
+  const DISCORD_URL_RE = /https?:\/\/(?:canary\.|ptb\.)?discord(?:app)?\.com\/\S+/i;
+  const SNOWFLAKE_RE = /\b\d{17,20}\b/;
+  const TOKENISH_RE = /\b(?:github_pat_|ghp_|sk-[A-Za-z0-9_-]{8,}|token|secret|password|webhook)\b/i;
 
   function compactText(value) {
     if (value == null) return "";
@@ -159,6 +162,38 @@
       if (text) return text;
     }
     return "";
+  }
+
+  function hasUnsafeText(value) {
+    const text = String(value || "");
+    return DISCORD_URL_RE.test(text) || SNOWFLAKE_RE.test(text) || TOKENISH_RE.test(text);
+  }
+
+  function safeDisplayText(value, fallback) {
+    const text = compactText(value);
+    if (!text || hasUnsafeText(text)) return fallback || "";
+    return text;
+  }
+
+  function safeResponseTargetPath(responseTarget) {
+    if (!responseTarget || typeof responseTarget !== "object") return "";
+    const path = String(responseTarget.path || "").trim();
+    if (!path || hasUnsafeText(path)) return "";
+    if (path.indexOf("/") !== 0 || path.indexOf("//") === 0) return "";
+    return path;
+  }
+
+  function safeAttentionEvidenceSummary(items) {
+    if (!Array.isArray(items)) return "";
+    const summaries = [];
+    for (let i = 0; i < items.length; i += 1) {
+      const item = items[i];
+      if (!item || typeof item !== "object") continue;
+      const summary = safeDisplayText(item.summary || item.label || item.type || item.source, "");
+      if (summary) summaries.push(summary);
+      if (summaries.length >= 2) break;
+    }
+    return summaries.join("; ");
   }
 
   function roleName(message) {
@@ -223,20 +258,77 @@
     return null;
   }
 
-  function possibleAttentionHint(sessions) {
+  function normalizeAttentionState(value) {
+    return String(value || "").trim().toLowerCase().replace(/[\s-]+/g, "_");
+  }
+
+  function attentionReasonLabel(state, reason) {
+    const normalizedReason = String(reason || "").toLowerCase();
+    if (state === "waiting_on_human" && /approv|confirm|decision|decide|consent|merge/.test(normalizedReason)) return "approval";
+    if (state === "waiting_on_human") return "requested";
+    if (state === "blocked") return "blocked";
+    if (state === "error") return "error";
+    if (state === "possibly_waiting") return "waiting";
+    return "attention";
+  }
+
+  function explicitAttentionSignal(session) {
+    if (!session) return null;
+    let state = normalizeAttentionState(firstTextField(session, ["attention_state", "attentionState"]));
+    if (!state && (session.waiting_on_human === true || session.waitingOnHuman === true || session.requires_action === true || session.requiresAction === true)) {
+      state = "waiting_on_human";
+    }
+    if (!state || state === "unknown" || state === "none" || state === "normal") return null;
+    if (["possibly_waiting", "waiting_on_human", "blocked", "error"].indexOf(state) < 0) return null;
+
+    const reason = safeDisplayText(
+      firstTextField(session, ["attention_reason", "attentionReason", "blocked_reason", "blockedReason", "error", "last_error", "lastError"]),
+      "",
+    );
+    const evidence = safeAttentionEvidenceSummary(session.attention_evidence || session.attentionEvidence);
+    const title = safeDisplayText(recentTitle(session), "Untitled session");
+    const detailParts = [];
+    if (reason) detailParts.push(reason);
+    if (evidence) detailParts.push("Evidence: " + evidence);
+    const label = state === "possibly_waiting" ? "Possibly waiting" : "Attention: " + attentionReasonLabel(state, reason);
+    const tooltip = "Evidence-backed attention signal from Hermes session contract" +
+      (detailParts.length ? ": " + detailParts.join(" · ") : "") +
+      " in " + title + ". Not a global priority ranking.";
+
+    return {
+      label: label,
+      tone: state === "error" || state === "blocked" ? "warn" : "attention",
+      title: tooltip,
+      actionHref: safeResponseTargetPath(session.response_target || session.responseTarget),
+      actionLabel: "Respond",
+    };
+  }
+
+  function heuristicAttentionHint(sessions) {
     const list = Array.isArray(sessions) ? sessions : [];
     for (let i = 0; i < list.length; i += 1) {
       const evidence = sessionErrorOrStallEvidence(list[i]) || sessionMessageAttentionEvidence(list[i]);
       if (evidence) {
-        const title = recentTitle(list[i]);
+        const title = safeDisplayText(recentTitle(list[i]), "Untitled session");
         return {
           label: "Possibly waiting",
           tone: "attention",
           title: "Hedged attention hint: " + evidence + " in " + title + ". Not an authoritative priority signal.",
+          actionHref: "",
+          actionLabel: "Trace",
         };
       }
     }
     return null;
+  }
+
+  function possibleAttentionHint(sessions) {
+    const list = Array.isArray(sessions) ? sessions : [];
+    for (let i = 0; i < list.length; i += 1) {
+      const signal = explicitAttentionSignal(list[i]);
+      if (signal) return signal;
+    }
+    return heuristicAttentionHint(list);
   }
 
   const SESSION_SOURCES = ["cli", "telegram", "discord", "slack", "whatsapp", "cron", "local"];
@@ -331,12 +423,13 @@
     const hasApiError = Boolean(apiError);
     const freshness = freshnessState(data.refreshedAt, data.nowMs);
     const attentionHint = possibleAttentionHint(sessions);
-    const actionHref = gatewayLive && !hasApiError ? "/sessions" : "/logs";
-    const actionLabel = gatewayLive && !hasApiError ? "Trace" : "Open logs";
+    const attentionHref = attentionHint && attentionHint.actionHref;
+    const actionHref = gatewayLive && !hasApiError ? (attentionHref || "/sessions") : "/logs";
+    const actionLabel = gatewayLive && !hasApiError ? (attentionHint ? (attentionHint.actionLabel || "Respond") : "Trace") : "Open logs";
     const actionTitle = hasApiError
       ? "Dashboard API error: " + apiError
       : gatewayLive
-        ? "Open recent Hermes sessions"
+        ? (attentionHint ? attentionHint.title : "Open recent Hermes sessions")
         : "Open dashboard logs for gateway status";
     const gatewayLabel = hasApiError ? "API error" : gatewayLive ? "Gateway live" : "Gateway offline";
 

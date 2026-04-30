@@ -10,7 +10,7 @@ The functionality lane should only add operator-facing behavior when the availab
 which agent needs me → why now → where do I respond
 ```
 
-The public Nousromancer plugin can help with orientation and runtime health today. Its v1/demo promise is staged: show truthful health/freshness/source context, and optionally add a deliberately conservative `Possibly waiting` heuristic. It cannot yet claim reliable human-input triage without a new Hermes session signal.
+The public Nousromancer plugin now treats the upstream attention contract as the preferred source when it is present. It can still only claim what the contract says: an evidence-backed attention signal for one fetched session, not a global priority ranking across all work.
 
 ## Current public dashboard APIs
 
@@ -57,18 +57,31 @@ Implemented now: the Now Bar uses `gateway_running`, `active_sessions`, API erro
 
 `/api/sessions/:id/messages` can expose message roles, timestamps, content, and tool-call metadata after opening a row. This can support a conservative “last role” heuristic, but fetching messages for every row would be heavier than the current list API and should not be the first public plugin behavior.
 
-## Missing signals for true human-input triage
+## Session attention contract fields
 
-The current APIs do **not** expose a reliable public field for:
+Hermes Agent now exposes additive attention fields on session-list records. Nousromancer consumes them before local heuristics:
 
-- `waiting_on_human` / `needs_input`
-- last completed assistant ask vs. ongoing assistant/tool work
-- response target URL/channel/thread/surface
-- blocked reason or approval gate
-- explicit urgency/stakes/priority
-- whether the latest user message has already been answered
+| Field | Useful for | Nousromancer behavior |
+| --- | --- | --- |
+| `attention_state` | Evidence-backed state | `unknown`/empty stays silent; `possibly_waiting` keeps hedged copy; `waiting_on_human`, `blocked`, and `error` render an `Attention: …` pill without claiming global priority. |
+| `attention_reason` | Why now | Rendered only in sanitized title/tooltips, not as noisy row copy. Unsafe URLs, snowflakes, and token-like strings are suppressed. |
+| `response_target.path` | Where to answer | Used as the Now Bar CTA only when it is a safe dashboard-local path; otherwise fallback remains `/sessions`. |
+| `attention_evidence` | Evidence basis | Sanitized summaries may appear in tooltips. Raw private handles and unsafe refs are not rendered. |
 
-Therefore, the plugin should not claim “which agent needs me most” as a precise feature yet. It can say what is live, stale, recent, and where the latest trace came from.
+Explicit contract signals outrank heuristic signals. Local heuristics remain fallback-only and keep the label `Possibly waiting`.
+
+## Missing signals for true cross-work triage
+
+The current public plugin still does **not** own reliable global triage for:
+
+- comparison across every live workstream / agent body
+- durable operator-decision state
+- first-party write/answer capture
+- approval/consent governance
+- cross-project urgency/stakes owned outside Hermes sessions
+- whether the latest user message has already been answered when upstream attention fields are absent
+
+Therefore, the plugin should not claim “which agent needs me most” as a precise feature yet. It can say what is live, stale, recent, where the latest trace came from, and whether one fetched session carries explicit attention evidence.
 
 ## Public-safe implementation boundaries
 
@@ -90,7 +103,13 @@ Avoid in public Nousromancer:
 
 ## Smallest next behavior
 
-The accepted v1 behavior is **B+C**: a staged attention layer plus a conservative heuristic experiment, not a full triage queue:
+The current behavior is **explicit-contract first, B+C fallback**: prefer upstream attention evidence when present, then fall back to health/source/freshness plus conservative heuristic hints:
+
+```text
+Now · Gateway live · 3 active · Updated now · Latest: src:discord · Attention: approval · Respond →
+```
+
+Fallback without explicit contract:
 
 ```text
 Now · Gateway live · 3 active · Updated now · Latest: src:discord · Possibly waiting · Trace →
@@ -100,15 +119,16 @@ Rules:
 
 1. Keep the existing health/freshness/error pills.
 2. Derive `Latest: src:<source>` from the first returned session when present.
-3. Link to `/sessions` when the dashboard API is healthy; link to `/logs` on API/runtime errors.
-4. Do not label anything `needs input`, `blocked on you`, or `highest priority` until Hermes exposes an explicit signal.
-5. If the heuristic is used, label it `Possibly waiting`, source it from bounded evidence, and make the uncertainty visible in copy/tests.
+3. Prefer the first fetched session with an explicit non-unknown `attention_state` and render a sanitized `Attention: …` or explicit `Possibly waiting` pill.
+4. Use a safe dashboard-local `response_target.path` for the CTA when available; otherwise link to `/sessions` when the dashboard API is healthy and `/logs` on API/runtime errors.
+5. Do not label anything `needs input`, `blocked on you`, or `highest priority` from public Nousromancer.
+6. If the heuristic is used, label it `Possibly waiting`, source it from bounded evidence, and make the uncertainty visible in copy/tests.
 
 Current infrastructure:
 
 - **Message-role hint:** show `Possibly waiting` when the latest meaningful session turn is assistant/agent-originated and question-like.
 - **Error/stall hint:** show `Possibly waiting` when session state/error fields indicate `stalled`, `failed`, `blocked`, degraded state, failed tools, or similar interruption evidence.
-- **Future upstream hook:** consume explicit `attention_state`, `waiting_on_human`, `requires_action`, blocked reason, response target, and urgency/stakes when Hermes exposes them, while preserving the public copy boundary.
+- **Explicit upstream hook:** consume `attention_state`, `attention_reason`, `response_target`, and `attention_evidence` when Hermes exposes them. Explicit evidence outranks local heuristics, but public copy remains bounded to evidence-backed attention state, not global priority.
 - **Fallback:** show no attention hint when evidence is insufficient.
 
 ## Follow-up implementation candidates
@@ -117,12 +137,9 @@ Current infrastructure:
    - Add latest-session source to the Now Bar.
    - Tests: source shown for latest session; absent sessions keep `No recent trace`; no private handles.
 
-2. **Session attention contract upstream**
-   - Upstream Hermes Agent work lives in `hermes-tp4`.
-   - Proposed additive session-list fields: `attention_state`, `attention_reason`, `response_target`, and `attention_evidence`.
-   - Conservative defaults: old/non-explicit sessions report `attention_state: unknown`, safe dashboard-session response targets, and no evidence.
-   - Explicit states may include `possibly_waiting`, `waiting_on_human`, `blocked`, or `error`, but public Nousromancer must still avoid `needs input`, `blocked on you`, and `highest priority` copy unless upstream evidence is explicit and sanitized.
-   - Tests: list endpoint includes conservative default; UI can consume explicit/sanitized fields without fetching every message.
+2. **Downstream attention contract consumption**
+   - Implemented in the Now Bar: explicit `attention_state`, `attention_reason`, `response_target`, and `attention_evidence` are consumed before heuristics.
+   - Tests cover explicit attention rendering, safe response-target routing, unknown suppression, unsafe field redaction, heuristic fallback, and legacy sessions.
 
 3. **Sessions row attention context**
    - Carry the tested `Possibly waiting` evidence into Sessions row metadata.
@@ -131,4 +148,4 @@ Current infrastructure:
 
 ## Decision
 
-For the current public/demo promise, choose **B+C**: ship/show health, freshness, source orientation, and optionally a hedged `Possibly waiting` hint if implemented and tested. Treat full human-input triage as a Hermes/API contract problem, not a CSS/plugin-polish claim.
+For the current public/demo promise, Nousromancer now uses **explicit contract first, B+C fallback**: show health, freshness, source orientation, consume explicit upstream session attention fields when present, and otherwise keep heuristic `Possibly waiting` hints hedged. Treat full operator decision capture and global multi-agent prioritization as private ops / upstream coordination work, not a public CSS/plugin-polish claim.

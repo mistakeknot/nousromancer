@@ -163,6 +163,79 @@ test('pre-main Now Bar omits the latest source hint when source evidence is abse
   assert.doesNotMatch(text, /src:/i);
 });
 
+test('pre-main Now Bar prefers explicit Hermes attention contract over heuristic hints and routes response target', async () => {
+  const node = await renderRegisteredSlot('pre-main', {
+    status: { gateway_running: true, active_sessions: 2, version: '0.11.0' },
+    sessions: [{
+      id: 'sess-attention',
+      title: 'Review release decision',
+      is_active: true,
+      source: 'discord',
+      attention_state: 'waiting_on_human',
+      attention_reason: 'approval requested for release merge',
+      response_target: { kind: 'dashboard_session', surface: 'dashboard', label: 'Open session', path: '/sessions/sess-attention' },
+      attention_evidence: [
+        { type: 'assistant_prompt', source: 'session', summary: 'Assistant asked for release approval.', confidence: 'high' },
+      ],
+      messages: [
+        { role: 'assistant', content: 'Should I merge this now, or wait for another pass?' },
+      ],
+    }, {
+      id: 'sess-question',
+      title: 'Fallback question-like session',
+      is_active: true,
+      messages: [{ role: 'assistant', content: 'Should I continue?' }],
+    }],
+    error: null,
+  });
+  const text = flattenText(node).join(' ');
+  const links = collectLinks(node);
+
+  assert.match(text, /Attention: approval/i);
+  assert.doesNotMatch(text, /Possibly waiting/i);
+  assert.doesNotMatch(text, /needs input|blocked on you|highest priority/i);
+  assert.ok(links.some((link) => link.href === '/sessions/sess-attention' && /Evidence-backed attention signal/i.test(link.title || '')));
+});
+
+async function assertNoUnsafeNowBarLeak(node, unsafeParts) {
+  const text = flattenText(node).join(' ');
+  const links = collectLinks(node);
+  for (const unsafe of unsafeParts) {
+    assert.doesNotMatch(text, new RegExp(unsafe));
+    for (const link of links) {
+      assert.doesNotMatch(String(link.href || ''), new RegExp(unsafe));
+      assert.doesNotMatch(String(link.title || ''), new RegExp(unsafe));
+    }
+  }
+}
+
+test('pre-main Now Bar suppresses unknown attention states and unsafe response target/evidence fields', async () => {
+  const snowflake = ['1498420617', '710407823'].join('');
+  const tokenish = ['sk-', 'unsafeTOKEN123456789'].join('');
+  const node = await renderRegisteredSlot('pre-main', {
+    status: { gateway_running: true, active_sessions: 1, version: '0.11.0' },
+    sessions: [{
+      id: 'sess-unknown',
+      title: 'Background cleanup',
+      is_active: true,
+      attention_state: 'unknown',
+      attention_reason: `adapter held ${snowflake}`,
+      response_target: { kind: 'discord', surface: 'discord', label: tokenish, path: `https://discord.com/channels/${snowflake}/${snowflake}` },
+      attention_evidence: [
+        { type: 'url', source: 'discord', summary: `unsafe https://discord.com/channels/${snowflake}/${snowflake}`, confidence: 'high' },
+      ],
+    }],
+    error: null,
+  });
+  const text = flattenText(node).join(' ');
+  const links = collectLinks(node);
+
+  assert.doesNotMatch(text, /Attention:/i);
+  assert.doesNotMatch(text, /Possibly waiting/i);
+  assert.ok(links.some((link) => link.href === '/sessions'), 'unsafe response target falls back to sessions');
+  await assertNoUnsafeNowBarLeak(node, [snowflake, 'discord\\.com/channels', 'sk-unsafeTOKEN123456789']);
+});
+
 test('pre-main Now Bar shows a hedged Possibly waiting hint for assistant question turns', async () => {
   const node = await renderRegisteredSlot('pre-main', {
     status: { gateway_running: true, active_sessions: 1, version: '0.11.0' },
