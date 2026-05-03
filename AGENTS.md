@@ -14,6 +14,15 @@ Root doctrine for this repo lives in:
 - `docs/operator-personas-and-pain-points.md`
 - `docs/functionality-data-contract.md`
 
+Supporting project-docs spine:
+
+- `CLAUDE.md` — Claude Code execution guidance only.
+- `docs/architecture.md` — theme/plugin/Hermes dashboard boundaries.
+- `docs/roadmap.md` — post-hackathon product sequence.
+- `docs/cujs/operator-reorientation.md` — primary operator journey.
+- `docs/canon/doc-structure.md` — where doctrine and operational notes belong.
+- `docs/glossary.md` — ecosystem terms for outside readers and future agents.
+
 The metaharness review record behind the current root canon is:
 
 - `docs/reviews/2026-04-29-metaharness-doctrine-synthesis.md`

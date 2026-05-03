@@ -54,6 +54,16 @@ plugins/nousromancer-mission-control/dashboard/dist/style.css
 scripts/install.sh
 ```
 
+## Project docs
+
+- `MISSION.md`, `PHILOSOPHY.md`, `VISION.md` — root project canon.
+- `AGENTS.md`, `CLAUDE.md` — agent operating guidance.
+- `docs/architecture.md` — theme/plugin/data-flow boundaries.
+- `docs/roadmap.md` — post-hackathon product sequence.
+- `docs/cujs/operator-reorientation.md` — primary operator journey.
+- `docs/canon/doc-structure.md` — where project doctrine belongs.
+- `docs/glossary.md` — ecosystem terms for non-local readers.
+
 ## Screenshots
 
 ![Nousromancer Status dashboard](screenshots/nousromancer-dashboard-status.png)
