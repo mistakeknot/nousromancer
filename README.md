@@ -1,6 +1,8 @@
 # Nousromancer Hermes Dashboard
 
-Nousromancer is a minimal noir operations skin for Hermes Agent: a black technical ledger with ACRONYM-like labeling discipline, Veilance restraint, mono metadata, readable sans content, thin rules, and operational color only where state matters. It includes both hackathon tracks:
+Nousromancer helps Hermes operators resume live agent work after interruptions: it turns runtime and session data into truthful orientation, conservative attention hints, and safe next-action affordances. When an operator returns from Discord, CLI, cron, browser work, or a parallel agent lane, the dashboard should make it easier to see what is alive, what changed, what may need human judgment, and where to inspect or respond without inventing priority or routing authority.
+
+The public package is also a minimal noir operations skin for Hermes Agent: a black technical ledger with ACRONYM-like labeling discipline, Veilance restraint, mono metadata, readable sans content, thin rules, and operational color only where state matters. It includes both hackathon tracks:
 
 - Theme: `theme/nousromancer.yaml`
 - Plugin: `plugins/nousromancer-mission-control/`
@@ -36,6 +38,7 @@ Refresh `hermes dashboard`, select `Nousromancer`, and the Now Bar appears above
 
 ## What it demonstrates
 
+- A first-use product wedge: interruption recovery for Hermes operators returning to live multi-surface agent work.
 - A full dashboard theme using palette, typography, standard layout, restrained component chrome, color overrides, and custom CSS.
 - A no-build dashboard plugin using `window.__HERMES_PLUGIN_SDK__`.
 - Slot injection into `pre-main`, `header-left`, and `header-right`.
@@ -59,6 +62,8 @@ scripts/install.sh
 - `MISSION.md`, `PHILOSOPHY.md`, `VISION.md` — root project canon.
 - `AGENTS.md`, `CLAUDE.md` — agent operating guidance.
 - `docs/architecture.md` — theme/plugin/data-flow boundaries.
+- `docs/functionality-data-contract.md` — Hermes dashboard fields and attention-signal boundaries.
+- `docs/canon/workstream-evidence-strip-contract.md` — boundary-safe future workstream evidence pattern.
 - `docs/roadmap.md` — post-hackathon product sequence.
 - `docs/cujs/operator-reorientation.md` — primary operator journey.
 - `docs/canon/doc-structure.md` — where project doctrine belongs.

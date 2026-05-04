@@ -4,7 +4,7 @@
 
 ## Mission
 
-Nousromancer exists to make Hermes Agent a usable operator metaharness for Sylveste-grade agent work: a live Hermes-side surface that helps an operator see which sessions, agents, tasks, and workflows may need human judgment, why they matter now, and how to answer — without collapsing Sylveste's deeper canon into Hermes.
+Nousromancer exists to make Hermes Agent a usable operator metaharness for Sylveste-grade agent work: a live Hermes-side surface that helps an operator return after interruptions, see which sessions, agents, tasks, and workflows may need human judgment, understand why they matter now, and choose where to inspect or answer — without collapsing Sylveste's deeper canon into Hermes.
 
 Short form:
 
@@ -37,12 +37,15 @@ When a feature would make Nousromancer the source of truth for durable coordinat
 
 ## Product promise
 
+The public V1 product wedge is interruption recovery for Hermes operators. When an operator returns from Discord, CLI, cron, browser work, or a parallel agent lane, Nousromancer should make the next safe move easier to choose without claiming to be the routing authority.
+
 The public V1 promise is staged attention:
 
 1. show runtime health, recency, freshness, and source orientation truthfully;
 2. surface conservative "possibly waiting" hints where the evidence supports them;
-3. make the next operator move easier to decide;
-4. refuse to overclaim authoritative attention state before Hermes exposes explicit upstream fields.
+3. stage safe `Inspect →` or `Respond →` affordances only when the target is explicit and dashboard-local;
+4. make the next operator move easier to decide;
+5. refuse to overclaim authoritative attention state before Hermes exposes explicit upstream fields.
 
 Current copy may say a session is `Possibly waiting` when it is genuinely derived from available Hermes data. It must not claim `needs input`, `blocked on you`, `highest priority`, or equivalent authoritative triage unless Hermes provides explicit, sanitized upstream evidence such as `attention_state`, `attention_reason`, `response_target`, and `attention_evidence`.
 
