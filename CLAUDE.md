@@ -13,8 +13,8 @@ Before editing, read:
 
 ## Working lane
 
-- Work in `/home/mk/projects/nousromancer` on `zklw`.
-- Verify `git rev-parse --show-toplevel` is `/home/mk/projects/nousromancer` before edits.
+- Work in a checkout of this repository (`<repo-root>`).
+- Verify `git rev-parse --show-toplevel` is `<repo-root>` before edits.
 - Use repo-local Beads. Check `bd context`, inspect the current bead, and claim before implementation.
 - Keep commits small and tied to a Bead ID when possible.
 

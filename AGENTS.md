@@ -25,12 +25,7 @@ Supporting project-docs spine:
 - `docs/canon/doc-structure.md` — where doctrine and operational notes belong.
 - `docs/glossary.md` — ecosystem terms for outside readers and future agents.
 
-The metaharness review record behind the current root canon is:
-
-- `docs/reviews/2026-04-29-metaharness-doctrine-synthesis.md`
-- `docs/reviews/2026-04-30-metaharness-doctrine-oracle-browser.md`
-
-Use those review files as rationale, not as a substitute for the root canon.
+The metaharness doctrine reviews behind the current root canon are not tracked in the public tree. Treat any review notes you have locally as rationale, not as a substitute for the root canon.
 
 ## Project identity
 
@@ -94,7 +89,7 @@ Never hide missing evidence behind confident prose.
 
 Use repo-local Beads for project work.
 
-- Project path: `/home/mk/projects/nousromancer`
+- Project path: the repository root (`<repo-root>`)
 - Current tracker prefix: `nousrmncr`
 - Before implementation, check `bd context` and the relevant bead.
 - For `bd note`/`bd update` warnings like `auto-export: git add failed`, verify the Beads mutation before retrying; the write may have succeeded.
@@ -104,9 +99,9 @@ Do not use GitHub Issues unless explicitly requested.
 
 ## Development hygiene
 
-- Work in `/home/mk/projects/nousromancer` on `zklw`.
+- Work in a checkout of this repository (`<repo-root>`).
 - Do not work under `/mnt/c` or an incidental local workspace.
-- Verify git root before edits: `git rev-parse --show-toplevel` should be `/home/mk/projects/nousromancer`.
+- Verify git root before edits: `git rev-parse --show-toplevel` should be `<repo-root>`.
 - Keep unrelated work out of the commit.
 - Prefer small, reviewable docs/code increments tied to Beads IDs.
 

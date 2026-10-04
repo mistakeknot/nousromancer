@@ -59,8 +59,8 @@ Design docs should preserve the black-ledger/operator-surface taste while stayin
 
 Use:
 
-- `docs/reviews/` — durable reviewer/oracle/synthesis artifacts.
-- `docs/research/` — research inputs and exploratory material.
+- `docs/reviews/` — reviewer/oracle/synthesis artifacts (kept local; not tracked in the public tree).
+- `docs/research/` — research inputs and exploratory material (kept local; not tracked in the public tree).
 
 Review and research files are rationale, not automatic canon. Promote stable conclusions into root docs, architecture, contracts, or canon files.
 
