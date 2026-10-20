@@ -1,12 +1,12 @@
 # Public/private operator-context boundary
 
-Status: working contract for `nousrmncr-d14.4`. This file defines the boundary between the public Hermes-safe Nousromancer dashboard and richer private operator context from Masaq, GSV, Sylveste-adjacent workflows, Beads, and future coordination substrates.
+Status: working contract for `nousrmncr-d14.4`. This file defines the boundary between the public Hermes-safe Nousromancer dashboard and richer private operator context from private operator tooling, Sylveste-adjacent workflows, Beads, and future coordination substrates.
 
 ## Purpose
 
 Nousromancer helps a Hermes operator recover context after an interruption. It can show what Hermes knows now, make uncertainty visible, and stage safe inspection or response affordances.
 
-It must not turn private operator context into public product surface. It also must not become the system of record for Sylveste, Beads, Masaq, GSV, Ockham, Clavain, Interverse, or future coordination layers.
+It must not turn private operator context into public product surface. It also must not become the system of record for Sylveste, Beads, private operator tooling, Ockham, Clavain, Interverse, or future coordination layers.
 
 Short rule:
 
@@ -51,7 +51,7 @@ These may be useful to the operator, but they do not belong in public Nousromanc
 | Field class | Examples | Owner |
 | --- | --- | --- |
 | Raw external IDs | Discord channel IDs, thread IDs, message IDs, snowflakes | Source adapter / Hermes |
-| Private work handles | internal thread names, private workstream labels, non-public repo paths | Masaq / GSV / local operator context |
+| Private work handles | internal thread names, private workstream labels, non-public repo paths | private operator tooling / local operator context |
 | Beads task truth | issue status, assignee, dependency graph, close reason | Beads / Sylveste |
 | Durable provenance | review record, artifact lineage, canonical decision history | Sylveste / Interverse |
 | Routing/governor state | selected agent, routing reason, policy decision, dispatch state | Ockham / upstream coordinator |
@@ -132,7 +132,7 @@ NO-GO:
 - public leakage of private operator context;
 - local heuristic global priority;
 - Nousromancer-owned routing/governance/approval semantics;
-- treating Beads, Sylveste, Ockham, Masaq, or GSV truth as if the dashboard owns it.
+- treating Beads, Sylveste, Ockham, or private operator tooling truth as if the dashboard owns it.
 
 ## Promotion gate
 

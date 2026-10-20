@@ -44,7 +44,7 @@ Agents must preserve these boundaries:
 - **Beads** tracks project work and issue state.
 - **Sylveste / Interverse / Ockham / Clavain / future substrate layers** may own deeper canon, governance, routing, provenance, review, or durable coordination semantics.
 
-Use `docs/canon/public-private-operator-context-boundary.md` before adding richer operator-context fields from Beads, Masaq/GSV, Sylveste, Ockham, Clavain, Interverse, or future coordination substrates to public dashboard copy, screenshots, or product claims.
+Use `docs/canon/public-private-operator-context-boundary.md` before adding richer operator-context fields from Beads, private operator tooling, Sylveste, Ockham, Clavain, Interverse, or future coordination substrates to public dashboard copy, screenshots, or product claims.
 
 Do not add code or copy that implies Nousromancer owns durable Sylveste truth unless an upstream contract explicitly grants that role.
 
