@@ -13,7 +13,7 @@ Root doctrine defines identity and durable boundaries:
 - `VISION.md` — medium/long-term direction and restraint.
 - `README.md` — public entry point and install/use orientation.
 
-These files are canon. Patch them deliberately and keep wording aligned with metaharness review artifacts.
+These files are canon. Patch them deliberately and keep their wording aligned with each other.
 
 ### Agent operation
 

@@ -111,7 +111,7 @@ For docs-only changes:
 
 - run `git diff --check`;
 - inspect overclaim language before committing;
-- verify root docs still align with the two metaharness review artifacts.
+- verify the root canon (`MISSION.md`, `PHILOSOPHY.md`, `VISION.md`, `README.md`) still agrees with itself and with `docs/canon/doc-structure.md`.
 
 For code/plugin changes, add or run the narrowest relevant tests first, then broader tests where available. This repo currently uses `.mjs` test files under `tests/`; inspect the test harness before assuming a package command exists.
 
