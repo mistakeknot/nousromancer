@@ -66,9 +66,4 @@ This applies especially to:
 
 ## Source alignment
 
-This mission follows the reviewed metaharness doctrine in:
-
-- `docs/reviews/2026-04-29-metaharness-doctrine-synthesis.md`
-- `docs/reviews/2026-04-30-metaharness-doctrine-oracle-browser.md`
-
-Those reviews are not a substitute for canon, but they record the convergence behind this boundary: name Sylveste directly, keep Nousromancer readable to outsiders, and preserve strict layer discipline.
+This mission follows the reviewed metaharness doctrine. The review notes are not a substitute for canon, but they record the convergence behind this boundary: name Sylveste directly, keep Nousromancer readable to outsiders, and preserve strict layer discipline.
